@@ -1,5 +1,6 @@
 - colname = { "organization" => "Organization",
               "position" => "Position",
+              "location" => "Location",
               "dateposted" => "Date Posted",
               "deadline" => "Deadline",
               "edit" => "Edit",
@@ -17,26 +18,29 @@
         %th{:class => col}= colname[col]
   %tbody
     - postings.each do |posting|
-      %tr
-        - columns.each do |col|
-          %td{:class => col}
-            - case col
-              - when "dateposted"
-                = posting.created_at.strftime("%d %B %Y")
-              - when "deadline"
-                = posting.active_until.strftime("%d %B %Y")
-              - when "organization"
-                = posting.employer.company
-              - when "position"
-                = link_to posting.title, posting_path(posting)
-              - when "edit"
-                = link_to "Edit", edit_posting_path(posting) unless current_employer && posting.employer != current_employer
-              - when "remove"
-                = link_to "Remove", posting_path(posting), :method => :delete, :confirm => "Are you sure you want to remove this job posting? This will permanently delete it from our system." unless current_employer && posting.employer != current_employer
-              - when "state"
-                = posting.state_as_string unless current_employer && posting.employer != current_employer
-      - if includetags
+      -if current_student.nil? || current_student.locations.include?(posting.location)
         %tr
-          %td{:colspan => 4}
-            - posting.tags.each do |tag|
-              %div.token tag.name
+          - columns.each do |col|
+            %td{:class => col}
+              - case col
+                - when "dateposted"
+                  = posting.created_at.strftime("%d %B %Y")
+                - when "deadline"
+                  = posting.active_until.strftime("%d %B %Y")
+                - when "organization"
+                  = posting.employer.company
+                - when "position"
+                  = link_to posting.title, posting_path(posting)
+                - when "location"
+                  = posting.location
+                - when "edit"
+                  = link_to "Edit", edit_posting_path(posting) unless current_employer && posting.employer != current_employer
+                - when "remove"
+                  = link_to "Remove", posting_path(posting), :method => :delete, :confirm => "Are you sure you want to remove this job posting? This will permanently delete it from our system." unless current_employer && posting.employer != current_employer
+                - when "state"
+                  = posting.state_as_string unless current_employer && posting.employer != current_employer
+        - if includetags
+          %tr
+            %td{:colspan => 4}
+              - posting.tags.each do |tag|
+                %div.token tag.name

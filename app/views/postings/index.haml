@@ -9,7 +9,7 @@
 
 
 %div#content
-  - columns = ["organization", "position", "dateposted", "deadline"]
+  - columns = ["organization", "position", "location", "dateposted", "deadline"]
 
   - if current_student && current_student.is_admin?
     - columns << "edit" << "remove" << "state"

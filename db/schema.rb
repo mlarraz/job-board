@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130311225121) do
+ActiveRecord::Schema.define(:version => 20140124233116) do
 
   create_table "employers", :force => true do |t|
     t.string   "email"
@@ -91,6 +91,7 @@ ActiveRecord::Schema.define(:version => 20130311225121) do
     t.boolean  "interested_in_part_time",       :default => true
     t.boolean  "interested_in_full_time",       :default => true
     t.boolean  "interested_in_entrepreneurial", :default => true
+    t.text     "locations"
   end
 
   add_index "students", ["email"], :name => "index_students_on_email", :unique => true

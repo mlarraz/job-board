@@ -1,5 +1,5 @@
 %h2 Edit Settings
-
+-all_locations = Posting.all.collect{|x| x.location}.uniq
 %fieldset
   %h3 My Interests
   = form_for(@student, :url => student_path(@student), :method => :put) do |f|
@@ -23,6 +23,12 @@
           %br
           = f.check_box :interested_in_entrepreneurial
           = f.label :interested_in_entrepreneurial, "Entrepreneurial Opportunities"
+      %tr
+        %td= f.label :locations, "Locations"
+        %td
+          =f.select :locations,
+            options_for_select( all_locations, @student.locations),
+            {}, { :multiple => true }
       %tr
         %td
         %td= f.submit "Update"
